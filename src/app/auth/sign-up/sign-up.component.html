@@ -1,0 +1,47 @@
+<section class="signup-form">
+  <form [formGroup]="signupForm" fxLayoutGap="15px" (ngSubmit)="onFormSubmit()" fxLayout="column" fxLayoutAlign="center stretch">
+    <mat-form-field>
+      <input
+        type="email"
+        matInput
+        id="email"
+        placeholder="Your email"
+        formControlName="email" />
+      <mat-error *ngIf="signupForm.get('email').hasError('required')">This field is required </mat-error>
+      <mat-error *ngIf="signupForm.get('email').hasError('email')">Invalid email</mat-error>
+    </mat-form-field>
+
+    <mat-form-field hintLabel="Should be at list 6 characters long">
+      <input
+        type="password"
+        matInput
+        placeholder="Your password"
+        (input)="passwordCharactersCount=$event.target.value.length"
+        formControlName="password" />
+      <mat-hint align="end"> {{ passwordCharactersCount }} / 6 </mat-hint>
+      <mat-error *ngIf="signupForm.get('password').hasError('required')">This field is required </mat-error>
+      <mat-error *ngIf="signupForm.get('password').hasError('minlength')">Must be at list 6 characters</mat-error>
+    </mat-form-field>
+
+    <mat-form-field>
+      <input
+        matInput
+        [max]="maxDate"
+        [matDatepicker]="myDatepicker"
+        placeholder="Your birthday"
+        formControlName="birthday">
+      <mat-datepicker-toggle matSuffix [for]="myDatepicker"></mat-datepicker-toggle>
+      <mat-datepicker (selectedChanged)="test($event)" #myDatepicker></mat-datepicker>
+      <mat-error *ngIf="signupForm.get('birthday').hasError('required')">This field is required </mat-error>
+    </mat-form-field>
+
+    <mat-checkbox color="primary" formControlName="agree" required>Agree to Terms and Conditions.</mat-checkbox>
+
+    <button
+      type="submit"
+      mat-raised-button
+      [disabled]="!signupForm.valid"
+      color="primary">Submit</button>
+
+  </form>
+</section>
